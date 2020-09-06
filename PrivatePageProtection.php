@@ -92,7 +92,9 @@
 			return array();
 		}
 	
-		$dbr = wfGetDB( DB_SLAVE );
+		// For Mediawiki 1.34.2, use DB_REPLICA.
+		// $dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select( array( 'page_props' ),
 			array( 'pp_value' ),
 			array( 'pp_page' => $id, 'pp_propname' => 'ppp_allowed_groups' ),

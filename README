@@ -1,0 +1,66 @@
+Restreindre la consultation d'une page à un groupe
+
+- Limiter la consultation d'une page à un ou plusieurs groupes avec l'extension PrivatePageProtection.
+- Fonctionne sous Mediawiki 1.33.1 mais ne fonctionne pas sous Mediawiki 1.34.2 ! Un dépôt Github est créé pour la mise à jour, voir plus bas.
+
+- Créer un dossier extensions/PrivatePageProtection
+- Ajouter les trois fichiers - Version 2012 : https://phabricator.wikimedia.org/diffusion/SVN/browse/trunk/extensions/PrivatePageProtection/
+
+- Activer l'extension depuis le fichier LocalSettings.php en ajoutant la ligne suivante :
+require_once "$IP/extensions/PrivatePageProtection/PrivatePageProtection.php";
+
+- Vérifier que l'extension est bien appliquée depuis la page Spécial:Version
+
+- De préférence, le nom des groupes doit être créé en minuscules.
+- (Il faudrait vérifier si les majuscules sont acceptées.)
+
+- Ajouter la ligne suivante au début d'un article pour limiter l'accès au groupe sysop.
+{{#allow-groups:sysop}}
+
+- Ajouter la ligne suivante au début d'un article pour limiter l'accès aux groupes autoconfirmed et emailconfirmed. 
+{{#allow-groups:autoconfirmed|emailconfirmed}}
+
+- Créer les trois pages suivantes pour le groupe JAT :
+index.php?title=MediaWiki:Group-jat avec comme contenu : Le groupe JAT.
+index.php?title=MediaWiki:Grouppage-jat avec comme contenu : La page du groupe Joomla Accessibility Team.
+index.php?title=MediaWiki:Group-jat-member avec comme contenu : JAT.
+
+- Ajouter un groupe utilisateur dans le fichier LocalSettings.php
+- jat : Joomla Accessibility Team.
+$wgGroupPermissions['jat']['read'] = true;
+
+- Ajouter sur les pages à protéger :
+{{#allow-groups:jat}}
+
+- Ajouter l'utilisateur au groupe JAT depuis les pages spéciales.
+index.php?title=Sp%C3%A9cial:Permissions
+
+- Source (Archivée) : https://www.mediawiki.org/wiki/Extension:PrivatePageProtection
+- Archive : https://www.mediawiki.org/w/index.php?oldid=3853225
+
+Réinstallation du wiki en version 1.33.3
+
+- Suite à la réinstallation du wiki en version 1.33.3 et de l'import des pages avec l'option de Mediawiki, la protection ne fonctionnait plus.
+- J'ai espacé l'autorisation en laissant une ligne vide avant et après la commande {{#allow-groups:jat}} ce qui a permis à l'autorisation de fonctionner.
+- Il est possible qu'il fallait réactualiser l'enregistrement de cette page en faisant une modification,
+- La protection fonctionne pour les pages du groupe jat de la Joomla Accessibility Team.
+- Problème résolu.
+
+[[Category:Joomla]] [[Category:JAT]]
+
+{{#allow-groups:jat}}
+
+{{Transclusion_Entete}}
+
+Réinstallation du wiki en version 1.34.2
+
+- Cette extension a été archivée par Mediawiki car non maintenue, dommage, elle était plutôt intéressante.
+https://phabricator.wikimedia.org/T212994
+
+- Le ticket créé pour une demande d'aide à la maintenance :
+https://www.mediawiki.org/wiki/Topic:Vtgzx8f5r8dy2ehr
+
+Fork du projet de 2012 : https://github.com/ZerooCool/PrivatePageProtection
+Objectif, faire fonctionner PrivatePageProtection sur Mediawiki 1.34.2
+
+Voir les alternatives existantes : https://www.mediawiki.org/wiki/Category:Page_specific_user_rights_extensions
